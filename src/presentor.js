@@ -3,18 +3,16 @@ import './index.css'
 import { initializeApp } from 'firebase/app'
 import { getDatabase, ref, push, set } from 'firebase/database'
 import { firebaseConfig } from './javascript/config.js'
+import { getSlides } from './javascript/slides_data.js'
+import { addSlides, changeSlide } from './javascript/basics.js'
 
 const app = initializeApp(firebaseConfig)
 const db = getDatabase()
-const firstSlide = 1
-const lastSlide = 20
-let currentSlide = 1
+let currentSlide, lastSlide
 
 function writeTouchData(slide) {
   const slidesListRef = ref(db, firebaseConfig.databaseName)
   const newSlideRef = push(slidesListRef)
-
-  console.log('writeTouchData', slide)
 
   set(newSlideRef, {
     slide
@@ -35,26 +33,31 @@ function addNavigationButtons() {
   navigationContainer.appendChild(nextButton)
   document.body.appendChild(navigationContainer)
 
-  // prevButton.addEventListener('click', () => {
-  //   prevSlide()
-  // })
-
-  prevButton.addEventListener('touchend', () => {
+  prevButton.addEventListener('click', () => {
     prevSlide()
   })
 
-  // nextButton.addEventListener('click', () => {
-  //   nextSlide()
+  // prevButton.addEventListener('touchend', () => {
+  //   prevSlide()
   // })
 
-  nextButton.addEventListener('touchend', () => {
+  nextButton.addEventListener('click', () => {
     nextSlide()
   })
+
+  // nextButton.addEventListener('touchend', () => {
+  //   nextSlide()
+  // })
 }
 
 function prevSlide() {
-  if (currentSlide > firstSlide) {
+  if (currentSlide > 1) {
     setCurrentSlide(currentSlide - 1)
+    changeSlide(currentSlide)
+    writeTouchData(currentSlide)
+  } else {
+    setCurrentSlide(lastSlide)
+    changeSlide(currentSlide)
     writeTouchData(currentSlide)
   }
 }
@@ -62,16 +65,32 @@ function prevSlide() {
 function nextSlide() {
   if (currentSlide < lastSlide) {
     setCurrentSlide(currentSlide + 1)
+    changeSlide(currentSlide)
+    writeTouchData(currentSlide)
+  } else {
+    setCurrentSlide(1)
+    changeSlide(currentSlide)
     writeTouchData(currentSlide)
   }
 }
 
 function setCurrentSlide(slide) {
   currentSlide = slide
-  document.body.id = `slide${slide}`
+}
+
+function setLastSlide(slides) {
+  lastSlide = slides.length
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  setCurrentSlide(currentSlide)
-  addNavigationButtons()
+  getSlides()
+    .then((slides) => {
+      setLastSlide(slides)
+      addSlides(slides)
+    })
+    .then(() => {
+      setCurrentSlide(1)
+      changeSlide(currentSlide)
+      addNavigationButtons()
+    })
 })
