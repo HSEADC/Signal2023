@@ -1,0 +1,28 @@
+body.presentor {
+  .navigationContainer {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .prevButton,
+  .nextButton {
+    width: 50vw;
+    height: 100vh;
+    // background-color: blue;
+
+    // &:hover {
+    //   background-color: red;
+    // }
+  }
+
+  .prevButton:hover {
+    cursor: w-resize;
+  }
+
+  .nextButton:hover {
+    cursor: e-resize;
+  }
+}
