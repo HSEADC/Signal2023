@@ -21901,18 +21901,19 @@ function addNavigationButtons() {
   nextButton.classList.add('nextButton');
   navigationContainer.appendChild(prevButton);
   navigationContainer.appendChild(nextButton);
-  document.body.appendChild(navigationContainer);
-  prevButton.addEventListener('click', function () {
-    prevSlide();
-  }); // prevButton.addEventListener('touchend', () => {
+  document.body.appendChild(navigationContainer); // prevButton.addEventListener('click', () => {
   //   prevSlide()
   // })
 
-  nextButton.addEventListener('click', function () {
-    nextSlide();
-  }); // nextButton.addEventListener('touchend', () => {
+  prevButton.addEventListener('touchend', function () {
+    prevSlide();
+  }); // nextButton.addEventListener('click', () => {
   //   nextSlide()
   // })
+
+  nextButton.addEventListener('touchend', function () {
+    nextSlide();
+  });
 }
 
 function prevSlide() {
