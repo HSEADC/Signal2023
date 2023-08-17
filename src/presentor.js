@@ -33,21 +33,21 @@ function addNavigationButtons() {
   navigationContainer.appendChild(nextButton)
   document.body.appendChild(navigationContainer)
 
-  prevButton.addEventListener('click', () => {
-    prevSlide()
-  })
-
-  // prevButton.addEventListener('touchend', () => {
+  // prevButton.addEventListener('click', () => {
   //   prevSlide()
   // })
 
-  nextButton.addEventListener('click', () => {
-    nextSlide()
+  prevButton.addEventListener('touchend', () => {
+    prevSlide()
   })
 
-  // nextButton.addEventListener('touchend', () => {
+  // nextButton.addEventListener('click', () => {
   //   nextSlide()
   // })
+
+  nextButton.addEventListener('touchend', () => {
+    nextSlide()
+  })
 }
 
 function prevSlide() {
