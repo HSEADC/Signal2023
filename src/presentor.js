@@ -35,17 +35,17 @@ function addNavigationButtons() {
   navigationContainer.appendChild(nextButton)
   document.body.appendChild(navigationContainer)
 
-  prevButton.addEventListener('click', () => {
-    prevSlide()
-  })
+  // prevButton.addEventListener('click', () => {
+  //   prevSlide()
+  // })
 
   prevButton.addEventListener('touchend', () => {
     prevSlide()
   })
 
-  nextButton.addEventListener('click', () => {
-    nextSlide()
-  })
+  // nextButton.addEventListener('click', () => {
+  //   nextSlide()
+  // })
 
   nextButton.addEventListener('touchend', () => {
     nextSlide()
