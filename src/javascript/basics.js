@@ -19,15 +19,19 @@ function addSlides(slides) {
 
 function changeSlide(currentSlide) {
   const slides = document.getElementsByClassName('slide')
+  let slide
 
   for (let index = 0; index < slides.length; index++) {
     const s = slides[index]
     s.style.display = 'none'
   }
 
-  console.log(currentSlide)
+  if (currentSlide === 'error') {
+    slide = document.querySelector(`.slide.error`)
+  } else {
+    slide = document.querySelector(`.slide${currentSlide}`)
+  }
 
-  const slide = document.querySelector(`.slide${currentSlide}`)
   slide.style.display = 'flex'
 }
 
