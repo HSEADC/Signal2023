@@ -21861,14 +21861,19 @@ function addSlides(slides) {
 
 function changeSlide(currentSlide) {
   var slides = document.getElementsByClassName('slide');
+  var slide;
 
   for (var index = 0; index < slides.length; index++) {
     var s = slides[index];
     s.style.display = 'none';
   }
 
-  console.log(currentSlide);
-  var slide = document.querySelector(".slide".concat(currentSlide));
+  if (currentSlide === 'error') {
+    slide = document.querySelector(".slide.error");
+  } else {
+    slide = document.querySelector(".slide".concat(currentSlide));
+  }
+
   slide.style.display = 'flex';
 }
 

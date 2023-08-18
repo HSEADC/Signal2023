@@ -21861,14 +21861,19 @@ function addSlides(slides) {
 
 function changeSlide(currentSlide) {
   var slides = document.getElementsByClassName('slide');
+  var slide;
 
   for (var index = 0; index < slides.length; index++) {
     var s = slides[index];
     s.style.display = 'none';
   }
 
-  console.log(currentSlide);
-  var slide = document.querySelector(".slide".concat(currentSlide));
+  if (currentSlide === 'error') {
+    slide = document.querySelector(".slide.error");
+  } else {
+    slide = document.querySelector(".slide".concat(currentSlide));
+  }
+
   slide.style.display = 'flex';
 }
 
@@ -21883,7 +21888,7 @@ function changeSlide(currentSlide) {
 var app = initializeApp(firebaseConfig);
 var db = getDatabase();
 var slidesCountRef = ref(db, firebaseConfig.databaseName);
-var currentSlide;
+var currentSlide, lastSlide;
 onValue(slidesCountRef, function (snapshot) {
   var data = snapshot.val();
   var keys = Object.keys(data);
@@ -21891,18 +21896,31 @@ onValue(slidesCountRef, function (snapshot) {
   var lastKey = Object.keys(data)[length - 1];
   var slide = data[lastKey].slide;
   setCurrentSlide(slide);
+  changeSlide(currentSlide);
 });
 
 function setCurrentSlide(slide) {
   currentSlide = slide;
-  document.body.id = "slide".concat(slide);
 }
 
+function setLastSlide(slides) {
+  lastSlide = slides.length;
+}
+
+window.addEventListener('resize', function () {
+  if (window.innerWidth > window.innerHeight) {
+    changeSlide('error');
+  } else {
+    changeSlide(currentSlide);
+  }
+});
 window.addEventListener('DOMContentLoaded', function () {
   getSlides().then(function (slides) {
-    return addSlides(slides);
+    setLastSlide(slides);
+    addSlides(slides);
   }).then(function () {
-    setCurrentSlide(0);
+    setCurrentSlide(1);
+    changeSlide(currentSlide);
   });
 });
 })();
